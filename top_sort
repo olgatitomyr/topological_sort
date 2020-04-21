@@ -1,0 +1,47 @@
+n, m = map(int, input('input n, m').split()) #кількість вершин і ребер у графі
+adj = [[] for i in range(n)] #список суміжності
+color = [int(0) for i in range(n)] #масив для зберігання кольорів вершин
+topSort = [] #топологічно впорядкована перестановка вершин графа
+
+#зчитуємо граф, заданий списком ребер
+for i in range(m):
+    v, w = map(int, input('input v, w').split())
+    v -= 1
+    w -= 1
+    adj[v].append(w)
+
+
+def topologicalsort(v) : #топологічне сортування вершин графа
+    #якщо вершина чорна, то не здійснюємо з неї виклик процедури
+    if color[v] == 2:
+        return True
+    #якщо вершина сіра, то орграф містить цикл, виходимо з процедури
+    if color[v] == 1:
+        return False
+    color[v] = 1 #помічаємо вершину як сіру
+    #запускаємо обхід із всіх вершин, суміжних з вершиною v
+    for w in adj[v]:
+        #виклик обходу від вершини w, суміжної з вершиною v
+        if not topologicalsort(w):
+            return False
+    color[v] = 2 #помічаємо вершину як чорну
+    #додаємо відвідану вершину в топологічний порядок
+    topSort.append(v)
+    return True
+
+def run():
+    cyclic = False #прапор, що показує чи містить орграф цикл
+    #запускаємо процедуру, яка топологічно сортує вершини графа
+    for v in range(n):
+        if not topologicalsort(v):
+            cyclic = True
+        if not cyclic:
+            topSort.reverse()
+    #інакше виводимо топологічно впорядковану перестановку його вершин
+    for v in topSort:
+        print(v + 1, end=' ')
+    else:
+        print('Cyclic')
+
+
+run()
