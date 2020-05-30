@@ -1,4 +1,4 @@
-n, m = map(int, input('input n, m').split()) #кількість вершин і ребер у графі
+vertices, edges = map(int, input('input n, m').split()) #кількість вершин і ребер у графі
 adj = [[] for i in range(n)] #список суміжності
 color = [int(0) for i in range(n)] #масив для зберігання кольорів вершин
 topSort = [] #топологічно впорядкована перестановка вершин графа
